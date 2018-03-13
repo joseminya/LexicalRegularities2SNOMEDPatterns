@@ -50,7 +50,10 @@ public class LexHandler extends DefaultHandler{
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equalsIgnoreCase("entity")) {
-			listLR.add(lr);	
+			if(labels) listLR.add(lr);	
+		}
+		if (qName.equalsIgnoreCase("labels")) {
+			labels=false;
 		}
 	}
 }
