@@ -13,7 +13,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 
 public class ParserLexicalRegularities {
-	public static List<LexicalRegularity> getLexicalRegularities(String file){
+	private LexHandler userhandler = new LexHandler();
+	public ParserLexicalRegularities(String file) {
 		try {
 	        File inputFile = new File(file);
 	        InputStream inputStream= new FileInputStream(inputFile);
@@ -21,12 +22,15 @@ public class ParserLexicalRegularities {
 	        InputSource is = new InputSource(reader);
 	        SAXParserFactory factory = SAXParserFactory.newInstance();
 	        SAXParser saxParser = factory.newSAXParser();
-	        LexHandler userhandler = new LexHandler();
 	        saxParser.parse(is, userhandler);  
-	        return userhandler.getListLR();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-		return null;
+	}
+	public List<LexicalRegularity> getLexicalRegularities(){
+		return userhandler.getListLR();
+	}
+	public List<LexicalRegularityPattern> getLexicalRegularityPatterns(){
+		return userhandler.getListLRP();
 	}
 }
