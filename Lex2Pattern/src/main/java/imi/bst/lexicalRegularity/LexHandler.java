@@ -50,7 +50,7 @@ public class LexHandler extends DefaultHandler{
 			}else if(patterns) {
 				String id = attributes.getValue("uri");
 				uri = id.substring(id.indexOf("id/")+3);
-				lrp.addEntity(id);
+				lrp.addEntity(uri);
 			}
 		} else if (qName.equalsIgnoreCase("annotations")) {
 			String lemma = attributes.getValue("lemma");
@@ -81,19 +81,8 @@ public class LexHandler extends DefaultHandler{
 			labels = false;
 		}else if (qName.equalsIgnoreCase("lexicalPattern")) {
 			if(patterns) {
-				if(lrp.getPattern().size()>2 && lrp.getLabel().indexOf(" ")>0) {
-					boolean insert = true;
-					for(String key: lrp.getPattern().keySet()) {
-						List<PosTag> listPosTags = lrp.getPattern().get(key);	
-						for(PosTag pt: listPosTags) {
-							if(pt.getCode().length()<2) {
-								insert = false;
-								break;
-							}
-						}
-						if(!insert) break;
-					}
-					if(insert) listLRP.add(lrp);
+				if(lrp.getPattern().size()>1 && lrp.getLabel().indexOf(" ")>0) {
+					listLRP.add(lrp);
 				}
 				lrp = null;
 			}
